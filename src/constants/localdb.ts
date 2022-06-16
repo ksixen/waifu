@@ -1,0 +1,1 @@
+export const SAVED_IMAGES = "saved-images"
