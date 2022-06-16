@@ -21,20 +21,26 @@ code {
 }
 .app-wrapper{
   display: grid;
-  width: 400px;
-  align-items: center;
+  margin: 0 auto;
+  max-width: 500px;
+  width: 100%;
 }
-.image-block{
-  
+.infinity-scroll-center{
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .image-wrapper{
   width: 400px;
   display: flex;
   justify-content: center;
+  min-height: 500px;
   height: 500px;
   overflow: hidden;
+  background-color: #fefefe;
 }
 .image{
+  background-color: #fefefe;
   height: 100%;
   width: auto;
 }
