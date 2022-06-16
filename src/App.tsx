@@ -3,15 +3,11 @@ import localforage from "localforage";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useAppSelector } from "./hooks/redux";
-import { v4 as uuidv4 } from "uuid";
-import { SAVED_IMAGES } from "./constants/localdb";
 import { ErrorMessage } from './components/ErrorMessage';
-import { Loading } from "./components/Loading";
 import "@vscode/codicons/dist/codicon.css"
 import { Image } from './components/Image/Image';
 export interface IImage {
   url: string;
-  id: string;
 }
 
 function App() {
@@ -38,20 +34,27 @@ function App() {
   }, [errorSave]);
   axios.defaults.baseURL = "https://api.waifu.pics/";
 
-  const getImages = useCallback(async (setState: any) => {
+  const getImages = useCallback(async () => {
     const req = await axios.get(currentCategory);
-    setState((prev: any) => [...prev, { url: req.data.url, id: uuidv4() }]);
+    setImage((prev: any) => [...prev, { url: req.data.url }]);
   }, []);
   const refreshImages = useCallback(async () => {
-    const req = await axios.get(currentCategory);
-    setImage([{ url: req.data.url, id: req.data.url }]);
+    setImage([]);
+    loadMoreImage();
+    loadMoreImage();
+    loadMoreImage();
+    loadMoreImage();
   }, []);
+
   const loadMoreImage = () => {
-    getImages(setImage);
+    getImages();
   };
   useEffect(() => {
     if (image.length === 0) {
-      getImages(setImage);
+      loadMoreImage();
+      loadMoreImage();
+      loadMoreImage();
+      loadMoreImage();
     }
   }, [image]);
 
@@ -63,6 +66,13 @@ function App() {
         hasMore={true}
         loader={
           <Image isLoading />
+        }
+        pullDownToRefreshThreshold={50}
+        pullDownToRefreshContent={
+          <h4 style={{ textAlign: 'center' }}>&#8595; Pull down to refresh</h4>
+        }
+        releaseToRefreshContent={
+          <h4 style={{ textAlign: 'center' }}>&#8593; Release to refresh</h4>
         }
         pullDownToRefresh
         refreshFunction={refreshImages}

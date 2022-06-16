@@ -5,7 +5,7 @@ import { SAVED_IMAGES } from "../../constants/localdb";
 import "./Image.css";
 
 export const Image = ({
-  data = { url: "", id: "" },
+  data = { url: ""},
   isLoading,
   setErrorSave = () => {},
 }: {
