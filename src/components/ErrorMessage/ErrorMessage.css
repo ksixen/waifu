@@ -1,0 +1,45 @@
+
+.save-error-popup{
+  position: fixed;
+  width: 80%;
+  min-height: 50px;
+  color: white;
+  background: #ed4337;
+  text-align: center;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  bottom: 50px;
+  z-index: 100;
+  left: 50%;
+  border-radius: 4px;
+  transform: translateX(-50%);
+}
+.close-btn {
+  position: absolute;
+  right: 30px;
+  width: 15px;
+  height: 15px;
+  bottom: 50%;
+  transform: translateY(50%);
+}
+.close-btn:hover {
+  cursor: pointer;
+}
+.close-btn:before, .close-btn:after {
+  position: absolute;
+  left: 8px;
+  content: ' ';
+  height: 15px;
+  width: 2px;
+  background-color: #fff;
+}
+.close-btn:before {
+  transform: rotate(45deg);
+}
+.close-btn:after {
+  transform: rotate(-45deg);
+}
+.save-error-popup span{
+ font-weight: 500;
+}

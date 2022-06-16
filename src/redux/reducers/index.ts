@@ -3,7 +3,6 @@ import { categories, savedImages } from "../slice";
 
 
 const rootReducer = combineReducers({
-  savedImages: savedImages,
   category: categories
 });
 

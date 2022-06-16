@@ -17,6 +17,7 @@ code {
 .app{
   display: flex;
   justify-content: center;
+  position: relative;
 }
 .app-wrapper{
   display: grid;
