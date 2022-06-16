@@ -2184,6 +2184,11 @@
     "@typescript-eslint/types" "5.28.0"
     eslint-visitor-keys "^3.3.0"
 
+"@vscode/codicons@^0.0.31":
+  version "0.0.31"
+  resolved "https://registry.yarnpkg.com/@vscode/codicons/-/codicons-0.0.31.tgz#1dc56f9442c3928b1c851965cf360e7e051e6511"
+  integrity sha512-fldpXy7pHsQAMlU1pnGI23ypQ6xLk5u6SiABMFoAmlj4f2MR0iwg7C19IB1xvAEGG+dkxOfRSrbKF8ry7QqGQA==
+
 "@webassemblyjs/ast@1.11.1":
   version "1.11.1"
   resolved "https://registry.yarnpkg.com/@webassemblyjs/ast/-/ast-1.11.1.tgz#2bfd767eae1a6996f432ff7e8d7fc75679c0b6a7"

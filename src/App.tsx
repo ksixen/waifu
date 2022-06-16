@@ -7,15 +7,16 @@ import { v4 as uuidv4 } from "uuid";
 import { SAVED_IMAGES } from "./constants/localdb";
 import { ErrorMessage } from './components/ErrorMessage';
 import { Loading } from "./components/Loading";
-
-interface IImage {
+import "@vscode/codicons/dist/codicon.css"
+import { Image } from './components/Image/Image';
+export interface IImage {
   url: string;
   id: string;
 }
 
 function App() {
   const [image, setImage] = useState<IImage[]>([]);
-  const [errorSave, setErrorSave] = useState<IImage | null>(null);
+  const [errorSave, setErrorSave] = useState<boolean>(false);
   const { currentCategory } = useAppSelector((store) => store.category);
   useEffect(() => {
     localforage.config({
@@ -27,23 +28,11 @@ function App() {
       name: "Waifu Pics",
     });
   }, []);
-  const addToSaved = useCallback((image: IImage) => {
-    localforage.getItem(SAVED_IMAGES).then((e: any) => {
-      const prev = e ?? [];
 
-      const findImage = prev.find((u: any) => u.url === image.url);
-      if (findImage) {
-        setErrorSave(image);
-        return;
-      }
-      const newArr = [...prev, image];
-      localforage.setItem(SAVED_IMAGES, newArr);
-    });
-  }, []);
 
   useEffect(() => {
     if (errorSave) {
-      const clearError = setInterval(() => setErrorSave(null), 3000);
+      const clearError = setInterval(() => setErrorSave(false), 3000);
       return () => clearInterval(clearError);
     }
   }, [errorSave]);
@@ -73,31 +62,21 @@ function App() {
         next={loadMoreImage}
         hasMore={true}
         loader={
-          <div className="infinity-scroll-center">
-            <div className="image-block">
-              <div className="image-wrapper">
-                <Loading />
-              </div>
-            </div>
-          </div>
+          <Image isLoading />
         }
         pullDownToRefresh
         refreshFunction={refreshImages}
       >
-        {image.map((data, index) => (
-          <div className="image-block" key={index}>
-            <div className="image-wrapper">
-              <img className="image" src={data.url} alt={data.url} />
-            </div>
-            <button onClick={() => addToSaved(data)}>Add To Saved</button>
-          </div>
+        {image.map((data) => (
+          <Image key={data.url} data={data} setErrorSave={setErrorSave} />
         ))}
       </InfiniteScroll>
     );
   }, [image]);
   return (
     <div className="app">
-      {errorSave && <ErrorMessage onClear={() => setErrorSave(null)} />}
+    
+      {errorSave && <ErrorMessage onClear={() => setErrorSave(false)} />}
       <header className="app-wrapper">
         {ScrollableContent}
       </header>
