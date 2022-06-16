@@ -6,6 +6,7 @@ import { useAppSelector } from "./hooks/redux";
 import { v4 as uuidv4 } from "uuid";
 import { SAVED_IMAGES } from "./constants/localdb";
 import { ErrorMessage } from './components/ErrorMessage';
+import { Loading } from "./components/Loading";
 
 interface IImage {
   url: string;
@@ -26,7 +27,7 @@ function App() {
       name: "Waifu Pics",
     });
   }, []);
-  const addToSaved = (image: IImage) => {
+  const addToSaved = useCallback((image: IImage) => {
     localforage.getItem(SAVED_IMAGES).then((e: any) => {
       const prev = e ?? [];
 
@@ -38,14 +39,13 @@ function App() {
       const newArr = [...prev, image];
       localforage.setItem(SAVED_IMAGES, newArr);
     });
-  };
+  }, []);
 
   useEffect(() => {
     if (errorSave) {
       const clearError = setInterval(() => setErrorSave(null), 3000);
       return () => clearInterval(clearError);
     }
-    return () => {};
   }, [errorSave]);
   axios.defaults.baseURL = "https://api.waifu.pics/";
 
@@ -72,7 +72,15 @@ function App() {
         dataLength={image.length}
         next={loadMoreImage}
         hasMore={true}
-        loader={<h4>Loading...</h4>}
+        loader={
+          <div className="infinity-scroll-center">
+            <div className="image-block">
+              <div className="image-wrapper">
+                <Loading />
+              </div>
+            </div>
+          </div>
+        }
         pullDownToRefresh
         refreshFunction={refreshImages}
       >
@@ -91,7 +99,6 @@ function App() {
     <div className="app">
       {errorSave && <ErrorMessage onClear={() => setErrorSave(null)} />}
       <header className="app-wrapper">
-        {/* {errorSave && } */}
         {ScrollableContent}
       </header>
     </div>
