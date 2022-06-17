@@ -50,10 +50,7 @@ function App() {
     getImages();
   };
   useEffect(() => {
-    if (image.length === 0) {
-      loadMoreImage();
-      loadMoreImage();
-      loadMoreImage();
+    if (image.length < 4) {
       loadMoreImage();
     }
   }, [image]);
@@ -65,8 +62,14 @@ function App() {
         next={loadMoreImage}
         hasMore={true}
         loader={
+          <>
           <Image isLoading />
+          <Image isLoading />
+          <Image isLoading />
+          <Image isLoading />
+          </>
         }
+        scrollableTarget="#scrollDiv"
         pullDownToRefreshThreshold={50}
         pullDownToRefreshContent={
           <h4 style={{ textAlign: 'center' }}>&#8595; Pull down to refresh</h4>
@@ -88,7 +91,9 @@ function App() {
     
       {errorSave && <ErrorMessage onClear={() => setErrorSave(false)} />}
       <header className="app-wrapper">
+        <div className="scrollDiv" id="scrollDiv">
         {ScrollableContent}
+        </div>
       </header>
     </div>
   );
