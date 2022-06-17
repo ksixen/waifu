@@ -14,12 +14,15 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+body {
+  background-color: whitesmoke;
+}
 
 .app{
   display: flex;
   justify-content: center;
   position: relative;
-  background-color: whitesmoke;
+  padding-top: 30px;
 }
 .app-wrapper{
   height: 100%;
@@ -34,6 +37,24 @@ code {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.nav {
+  display: flex;
+  height: 50px;
+  background: #1abc9c;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  gap: 20px;
+}
+.nav a{
+  color: white;
+  text-decoration: none;
 }
 
 .codicon-loading{

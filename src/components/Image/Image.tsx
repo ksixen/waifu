@@ -1,6 +1,7 @@
+import axios from "axios";
 import localforage from "localforage";
 import React, { useCallback } from "react";
-import { IImage } from "../../App";
+import { IImage } from "src/pages/index";
 import { SAVED_IMAGES } from "../../constants/localdb";
 import "./Image.css";
 
@@ -22,7 +23,7 @@ export const Image = ({
         setErrorSave(true);
         return;
       }
-      const newArr = [...prev, image];
+      const newArr = [image, ...prev];
       localforage.setItem(SAVED_IMAGES, newArr);
     });
   }, []);
@@ -39,7 +40,7 @@ export const Image = ({
       <div className="image-button bookmark" onClick={() => addToSaved(data)}>
         <div className="codicon codicon-bookmark" />
       </div>
-      <div className="image-button download" onClick={() => addToSaved(data)}>
+      <div className="image-button download" >
         <div className="codicon codicon-cloud-download" />
       </div>
     </div>
