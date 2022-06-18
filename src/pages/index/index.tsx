@@ -1,8 +1,10 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { useAppSelector } from "src/hooks/redux";
+import { useAppDispatch, useAppSelector } from "src/hooks/redux";
 import { ErrorMessage, Image } from "src/components";
+import { addToMainPageList, clearMainPageList } from "src/redux/slice";
+import { getState, saveState } from "src/hooks/saveStart";
 
 export interface IImage {
   url: string;
@@ -10,10 +12,9 @@ export interface IImage {
 }
 
 const IndexPage = () => {
-  const [image, setImage] = useState<IImage[]>([]);
   const [errorSave, setErrorSave] = useState<boolean>(false);
   const { currentCategory } = useAppSelector((store) => store.category);
-
+  const { mainPageList } = useAppSelector((store) => store.imagesList);
   useEffect(() => {
     if (errorSave) {
       const clearError = setInterval(() => setErrorSave(false), 3000);
@@ -21,38 +22,56 @@ const IndexPage = () => {
     }
   }, [errorSave]);
 
+  const dispatch = useAppDispatch();
+  const setImage = (data: IImage | undefined) => {
+    return dispatch(addToMainPageList(data));
+  };
+
+  useEffect(() => {
+    if (getState("Feed")) {
+      const { scrollY } = getState("Feed");
+      window.scrollTo(0, scrollY);
+    }
+  }, []);
+  useEffect(() => {
+    const save = () => {
+      saveState("Feed", { scrollY: window.pageYOffset });
+    };
+    save();
+    document.addEventListener("scroll", save);
+    return () => document.removeEventListener("scroll", save);
+  }, []);
+
   const getImages = useCallback(async () => {
     const req = await axios.get(currentCategory);
-    setImage((prev: any) => [...prev, { url: req.data.url, date: Date.now() }]);
-  }, []);
-  const refreshImages = useCallback(async () => {
-    setImage([]);
-    loadMoreImage();
-    loadMoreImage();
-    loadMoreImage();
-    loadMoreImage();
+    const isExist = mainPageList.find((i) => i && i.url == req.data.url);
+    if (!isExist) {
+      return setImage({ url: req.data.url, date: Date.now() });
+    } else {
+      return setImage(undefined);
+    }
+  }, [mainPageList]);
+  const refreshImages = useCallback(() => {
+    dispatch(clearMainPageList());
   }, []);
 
   const loadMoreImage = () => {
     getImages();
   };
   useEffect(() => {
-    if (image.length < 4) {
-      loadMoreImage();
+    if (mainPageList.length < 4) {
+      getImages();
     }
-  }, [image]);
+  }, [mainPageList]);
 
   const ScrollableContent = useMemo(() => {
     return (
       <InfiniteScroll
-        dataLength={image.length < 4 ? 0 : image.length}
+        dataLength={mainPageList.length < 4 ? 0 : mainPageList.length}
         next={loadMoreImage}
         hasMore={true}
         loader={
           <>
-            <Image isLoading />
-            <Image isLoading />
-            <Image isLoading />
             <Image isLoading />
           </>
         }
@@ -67,14 +86,17 @@ const IndexPage = () => {
         pullDownToRefresh
         refreshFunction={refreshImages}
       >
-        {image.map((data) => (
-          <Image key={data.url} data={data} setErrorSave={setErrorSave} />
-        ))}
+        {mainPageList.map(
+          (data) =>
+            data &&
+            data.url && (
+              <Image key={data.url} data={data} setErrorSave={setErrorSave} />
+            )
+        )}
       </InfiniteScroll>
     );
-  }, [image]);
+  }, [mainPageList]);
 
-  
   return (
     <div className="app">
       {errorSave && <ErrorMessage onClear={() => setErrorSave(false)} />}

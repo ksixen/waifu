@@ -5,7 +5,7 @@ interface ICategoriesSlice{
 }
 
 const initialState: ICategoriesSlice = {
-  currentCategory: "sfw/neko",
+  currentCategory: "sfw/waifu",
   showNSFW: false,
 }
 

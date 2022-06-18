@@ -1,2 +1,2 @@
-export * from './SavedImagesSlice';
+export * from './ImagesListSlice';
 export * from './CategoriesSlice'

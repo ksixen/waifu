@@ -1,12 +1,13 @@
 import axios from "axios";
+import { saveAs } from "file-saver";
 import localforage from "localforage";
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { IImage } from "src/pages/index";
 import { SAVED_IMAGES } from "../../constants/localdb";
 import "./Image.css";
 
 export const Image = ({
-  data = { url: ""},
+  data = { url: "" },
   isLoading,
   setErrorSave = () => {},
 }: {
@@ -28,19 +29,33 @@ export const Image = ({
     });
   }, []);
 
+  const [imageLoading, setImageLoading] = useState(true);
+
   return (
     <div className="image-block">
       <div className="image-wrapper">
         {isLoading ? (
           <div className="codicon codicon-loading" />
         ) : (
-          <img className="image" src={data.url} alt={data.url} />
+          <>
+            <img
+              className="image"
+              style={{ display: imageLoading ? "none" : "block" }}
+              onLoad={() => setImageLoading(false)}
+              src={data.url}
+              alt={data.url}
+            />
+            <div
+              className="codicon codicon-loading"
+              style={{ display: imageLoading ? "block" : "none" }}
+            />
+          </>
         )}
       </div>
       <div className="image-button bookmark" onClick={() => addToSaved(data)}>
         <div className="codicon codicon-bookmark" />
       </div>
-      <div className="image-button download" >
+      <div className="image-button download" onClick={() => saveAs(data.url)}>
         <div className="codicon codicon-cloud-download" />
       </div>
     </div>
