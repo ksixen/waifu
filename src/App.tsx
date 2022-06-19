@@ -1,9 +1,11 @@
-import React, { createElement, useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import axios from "axios";
 import localforage from "localforage";
-import { BrowserRouter, NavLink, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import IndexPage from "./pages/index/index";
 import SavedImages from "./pages/SavedImages/SavedImages";
+import { Sidebar } from "./components";
+import { NavList } from "./components/NavList/NavList";
 
 function App() {
   useEffect(() => {
@@ -20,16 +22,42 @@ function App() {
   axios.defaults.baseURL = "https://api.waifu.pics/";
 
   return (
-    <div className="app">
-      <nav className="nav">
-        <NavLink to="/">Main</NavLink>
-        <NavLink to="/saved">Saved Images</NavLink>
-      </nav>
-      <Routes>
-        <Route path="/" element={<IndexPage />} />
-        <Route path="/saved" element={<SavedImages />} />
-      </Routes>
-    </div>
+    <>
+      <header className="header-app">
+        <div className="header-app--inner"><span className="header-text">vk</span></div>
+      </header>
+      <div className="root-wrapper">
+        <Sidebar />
+        <div className="routes-wrapper">
+          <Routes>
+            <Route path="/" element={<IndexPage />} />
+            <Route path="/saved" element={<SavedImages />} />
+          </Routes>
+        </div>
+        <div className="right-sidebar sidebar">
+          <div className="sidebar-wrapper">
+            <NavList
+              onClick={() => {}}
+              list={[
+                { title: "Mixed", isActive: true },
+                { title: "SFW", isActive: false },
+                { title: "NSFW", isActive: false },
+              ]}
+            />
+            <NavList
+              onClick={(e) => console.log(e)}
+              list={[
+                { title: "All", isActive: true },
+                { title: "Neko", isActive: false },
+                { title: "Shinoubi", isActive: false },
+                { title: "bully", isActive: false },
+                { title: "cuddle", isActive: false },
+              ]}
+            />
+          </div>
+        </div>
+      </div>
+    </>
   );
 }
 

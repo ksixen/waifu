@@ -4,7 +4,6 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { useAppDispatch, useAppSelector } from "src/hooks/redux";
 import { ErrorMessage, Image } from "src/components";
 import { addToMainPageList, clearMainPageList } from "src/redux/slice";
-import { getState, saveState } from "src/hooks/saveStart";
 
 export interface IImage {
   url: string;
@@ -27,21 +26,6 @@ const IndexPage = () => {
     return dispatch(addToMainPageList(data));
   };
 
-  useEffect(() => {
-    if (getState("Feed")) {
-      const { scrollY } = getState("Feed");
-      window.scrollTo(0, scrollY);
-    }
-  }, []);
-  useEffect(() => {
-    const save = () => {
-      saveState("Feed", { scrollY: window.pageYOffset });
-    };
-    save();
-    document.addEventListener("scroll", save);
-    return () => document.removeEventListener("scroll", save);
-  }, []);
-
   const getImages = useCallback(async () => {
     const req = await axios.get(currentCategory);
     const isExist = mainPageList.find((i) => i && i.url == req.data.url);
@@ -51,9 +35,6 @@ const IndexPage = () => {
       return setImage(undefined);
     }
   }, [mainPageList]);
-  const refreshImages = useCallback(() => {
-    dispatch(clearMainPageList());
-  }, []);
 
   const loadMoreImage = () => {
     getImages();
@@ -76,15 +57,6 @@ const IndexPage = () => {
           </>
         }
         scrollableTarget="#scrollDiv"
-        pullDownToRefreshThreshold={50}
-        pullDownToRefreshContent={
-          <h4 style={{ textAlign: "center" }}>&#8595; Pull down to refresh</h4>
-        }
-        releaseToRefreshContent={
-          <h4 style={{ textAlign: "center" }}>&#8593; Release to refresh</h4>
-        }
-        pullDownToRefresh
-        refreshFunction={refreshImages}
       >
         {mainPageList.map(
           (data) =>
@@ -100,11 +72,9 @@ const IndexPage = () => {
   return (
     <div className="app">
       {errorSave && <ErrorMessage onClear={() => setErrorSave(false)} />}
-      <header className="app-wrapper">
         <div className="scrollDiv" id="scrollDiv">
           {ScrollableContent}
         </div>
-      </header>
     </div>
   );
 };
