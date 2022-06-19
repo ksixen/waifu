@@ -28,7 +28,8 @@ body {
   max-width: 100%;
   margin: 0 auto;
   margin-top: 50px;
-  gap: 20px;
+  justify-content: center;
+  gap: 10px;
   .routes-wrapper {
     grid-area: routers;
     display: flex;
@@ -62,7 +63,7 @@ body {
   position: fixed;
   z-index: 10000;
   top: 0;
-
+  box-shadow: inset 0px 0px 1px rgba(0, 0, 0, 0.25);
   &--inner {
     width: 1000px;
     max-width: 100%;
@@ -70,7 +71,7 @@ body {
     display: flex;
     height: 100%;
     align-items: center;
-
+    justify-content: center;
     .header-text {
       font-family: 'Secular One', sans-serif;
       font-size: 24px;

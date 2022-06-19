@@ -1,11 +1,12 @@
 import classNames from "classnames";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import "./NavList.scss";
 
-interface INavItem {
+export interface INavItem {
   title: string;
   isActive: boolean;
+  value?: string
 }
 
 export const NavList = ({
@@ -15,6 +16,12 @@ export const NavList = ({
   list: INavItem[];
   onClick: (e: INavItem) => void;
 }) => {
+  const [_list, setList] = useState<INavItem[]>([]);
+  useEffect(() => {
+    if(list){
+      setList(list)
+    }
+  },[list])
   return (
     <nav className="nav-list">
       {list.map((nav, index) => (

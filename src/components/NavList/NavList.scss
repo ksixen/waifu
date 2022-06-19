@@ -6,6 +6,7 @@
   padding: 10px 0;
   width: 300px;
   z-index: 100;
+  transition: .2s ease-in-out;
 
   &-item {
     width: 100%;
@@ -47,5 +48,21 @@
         left: 0;
       }
     }
+  }
+}
+
+@media screen and (max-width: 950px) {
+  .nav-list {
+    width: 200px;
+  }
+}
+@media screen and (max-width: 750px) {
+  .nav-list {
+    width: 150px;
+  }
+}
+@media screen and (max-width: 650px) {
+  .nav-list {
+    display: none;
   }
 }

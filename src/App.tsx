@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import axios from "axios";
 import localforage from "localforage";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import IndexPage from "./pages/index/index";
 import SavedImages from "./pages/SavedImages/SavedImages";
 import { Sidebar } from "./components";
@@ -24,7 +24,7 @@ function App() {
   return (
     <>
       <header className="header-app">
-        <div className="header-app--inner"><span className="header-text">vk</span></div>
+        <div className="header-app--inner"><span className="header-text">waifu</span></div>
       </header>
       <div className="root-wrapper">
         <Sidebar />
@@ -32,12 +32,13 @@ function App() {
           <Routes>
             <Route path="/" element={<IndexPage />} />
             <Route path="/saved" element={<SavedImages />} />
+            <Route path="/settings" element={<>Hello WORL</>} />
           </Routes>
         </div>
         <div className="right-sidebar sidebar">
           <div className="sidebar-wrapper">
             <NavList
-              onClick={() => {}}
+              onClick={(e) => {}}
               list={[
                 { title: "Mixed", isActive: true },
                 { title: "SFW", isActive: false },
