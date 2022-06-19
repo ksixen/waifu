@@ -24,15 +24,16 @@ export const NavList = ({
   },[list])
   return (
     <nav className="nav-list">
-      {list.map((nav, index) => (
+      {_list.map((nav, index) => (
         <div
           key={index}
+          onClick={() => !nav.isActive && onClick(nav)}
           className={classNames({
             "nav-list-item": true,
             "nav-list-item--active": nav.isActive,
           })}
         >
-          <span onClick={() => !nav.isActive && onClick(nav)}>{nav.title}</span>
+          <span>{nav.title}</span>
         </div>
       ))}
     </nav>
