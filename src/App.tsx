@@ -5,7 +5,7 @@ import { Route, Routes, useNavigate } from "react-router-dom";
 import IndexPage from "./pages/index/index";
 import SavedImages from "./pages/SavedImages/SavedImages";
 import { Sidebar } from "./components";
-import { NavList } from "./components/NavList/NavList";
+import { RightSidebar } from "./components/RightSidebar/RightSidebar";
 
 function App() {
   useEffect(() => {
@@ -35,28 +35,7 @@ function App() {
             <Route path="/settings" element={<>Hello WORL</>} />
           </Routes>
         </div>
-        <div className="right-sidebar sidebar">
-          <div className="sidebar-wrapper">
-            <NavList
-              onClick={(e) => {}}
-              list={[
-                { title: "Mixed", isActive: true },
-                { title: "SFW", isActive: false },
-                { title: "NSFW", isActive: false },
-              ]}
-            />
-            <NavList
-              onClick={(e) => console.log(e)}
-              list={[
-                { title: "All", isActive: true },
-                { title: "Neko", isActive: false },
-                { title: "Shinoubi", isActive: false },
-                { title: "bully", isActive: false },
-                { title: "cuddle", isActive: false },
-              ]}
-            />
-          </div>
-        </div>
+       <RightSidebar />
       </div>
     </>
   );

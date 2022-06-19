@@ -34,7 +34,7 @@ const IndexPage = () => {
     } else {
       return setImage(undefined);
     }
-  }, [mainPageList]);
+  }, [mainPageList, currentCategory]);
 
   const loadMoreImage = () => {
     getImages();
